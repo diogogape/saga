@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Annotation profile for orchestrator-service" enabled="true">
+        <sourceOutputDir name="../generated-sources/annotations" />
+        <sourceTestOutputDir name="../generated-test-sources/test-annotations" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/4.0.6/spring-boot-configuration-processor-4.0.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
+        </processorPath>
+        <module name="orchestrator-service.main" />
+        <module name="orchestrator-service.test" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="inventory-service" options="-parameters" />
+      <module name="inventory-service.main" options="-parameters" />
+      <module name="inventory-service.test" options="-parameters" />
+      <module name="orchestrator-service" options="-parameters" />
+      <module name="orchestrator-service.main" options="-parameters" />
+      <module name="orchestrator-service.test" options="-parameters" />
+      <module name="order-service" options="-parameters" />
+      <module name="order-service.main" options="-parameters" />
+      <module name="order-service.test" options="-parameters" />
+      <module name="payment-service" options="-parameters" />
+      <module name="payment-service.main" options="-parameters" />
+      <module name="payment-service.test" options="-parameters" />
+      <module name="product-service" options="-parameters" />
+      <module name="product-service.main" options="-parameters" />
+      <module name="product-service.test" options="-parameters" />
+    </option>
+  </component>
+</project>

@@ -1,0 +1,22 @@
+package com.saga.estudo.order.service.document;
+
+import lombok.*;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Order {
+
+    private String id;
+    private List<OrderProduct> products;
+    private Double totalAmount;
+    private Long totalItems;
+    private LocalDateTime createdAt;
+    private String transactionId;
+
+}

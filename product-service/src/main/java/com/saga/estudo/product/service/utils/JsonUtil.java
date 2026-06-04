@@ -1,6 +1,6 @@
 package com.saga.estudo.product.service.utils;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 
 import com.saga.estudo.product.service.dto.Event;
 import lombok.AllArgsConstructor;

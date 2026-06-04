@@ -1,6 +1,8 @@
 package com.saga.estudo.order.service.document;
 
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -10,8 +12,9 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Document(collection  = "order")
 public class Order {
-
+    @Id
     private String id;
     private List<OrderProduct> products;
     private Double totalAmount;

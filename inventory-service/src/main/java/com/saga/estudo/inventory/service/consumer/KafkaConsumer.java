@@ -2,6 +2,7 @@ package com.saga.estudo.inventory.service.consumer;
 
 
 
+import com.saga.estudo.inventory.service.service.InventoryService;
 import com.saga.estudo.inventory.service.utils.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ public class KafkaConsumer {
     @Autowired
     private JsonUtil utils;
 
+    @Autowired
+    private InventoryService inventoryService;
+
 
     @KafkaListener(
             groupId ="${spring.kafka.consumer.group-id}",
@@ -27,9 +31,7 @@ public class KafkaConsumer {
     public void finishSuccessConsumer(String payload){
         log.info("receive event {} from inventory-success topic", payload);
         var event = utils.toEvent(payload);
-        log.info(event.toString());
-
-
+        inventoryService.updateInventory(event);
     }
 
     @KafkaListener(
@@ -39,9 +41,7 @@ public class KafkaConsumer {
     public void finishFailConsumer(String payload){
         log.info("receive event {} from inventory-fail topic", payload);
         var event = utils.toEvent(payload);
-        log.info(event.toString());
-
-
+        inventoryService.rollbackInvetory(event);
     }
 
 

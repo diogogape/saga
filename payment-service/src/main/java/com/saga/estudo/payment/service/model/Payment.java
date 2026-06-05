@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="validation")
+@Table(name="payment")
 public class Payment {
 
     @Id
@@ -26,7 +26,7 @@ public class Payment {
     private String transactionId;
 
     @Column(nullable = false)
-    private Integer totalItems;
+    private Long totalItems;
 
     @Column(nullable = false)
     private Double totalAmount;

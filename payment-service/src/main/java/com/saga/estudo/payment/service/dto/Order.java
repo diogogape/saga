@@ -39,8 +39,9 @@ public class Order {
         return totalAmount;
     }
 
-    public Integer calculeteTotalItems() {
+    public Long calculeteTotalItems() {
         totalItems = products.stream().map(OrderProduct::getQuantity
         ).reduce(DOUBLE_ZERO.longValue(), Long::sum);
+        return totalItems;
     }
 }

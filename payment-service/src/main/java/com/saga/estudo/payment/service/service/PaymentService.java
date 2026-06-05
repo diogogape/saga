@@ -109,7 +109,7 @@ public class PaymentService {
     private void createPendingPayment(Event event) {
         Payment payment = Payment.builder()
                 .totalItems(event.calculeteTotalItems())
-                .totalAmount(event.calculateAmont())
+                .totalAmount(event.calculateAmount())
                 .orderId(event.getOrderId())
                 .transactionId(event.getTransactionId())
                 .build();

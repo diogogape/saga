@@ -1,6 +1,7 @@
 package com.saga.estudo.orchestrator.service.core.consumer;
 
 
+import com.saga.estudo.orchestrator.service.core.service.OrchestratorService;
 import com.saga.estudo.orchestrator.service.core.utils.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ public class KafkaConsumer {
     @Autowired
     private JsonUtil utils;
 
+    @Autowired
+    private OrchestratorService orchestratorService;
+
 
     @KafkaListener(
         groupId ="${spring.kafka.consumer.group-id}",
@@ -26,7 +30,7 @@ public class KafkaConsumer {
     public void statSagaConsumer(String payload){
         log.info("receive event {} from start-saga topic", payload);
         var event = utils.toEvent(payload);
-        log.info(event.toString());
+        orchestratorService.startSaga(event);
 
 
     }
@@ -38,7 +42,7 @@ public class KafkaConsumer {
     public void finishSuccessConsumer(String payload){
         log.info("receive event {} from finish-success topic", payload);
         var event = utils.toEvent(payload);
-        log.info(event.toString());
+        orchestratorService.finishSagaSuccess(event);
 
 
     }
@@ -50,8 +54,7 @@ public class KafkaConsumer {
     public void finishFailConsumer(String payload){
         log.info("receive event {} from finish-fail topic", payload);
         var event = utils.toEvent(payload);
-        log.info(event.toString());
-
+        orchestratorService.finishSagaFail(event);
 
     }
 
@@ -62,9 +65,7 @@ public class KafkaConsumer {
     public void orchestratorConsumer(String payload){
         log.info("receive event {} from orchestrator topic", payload);
         var event = utils.toEvent(payload);
-        log.info(event.toString());
-
-
+        orchestratorService.continueSaga(event);
     }
 
 }

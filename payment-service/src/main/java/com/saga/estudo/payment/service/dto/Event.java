@@ -44,11 +44,11 @@ public class Event {
         eventHistory.add(history);
     }
 
-    public Double calculateAmont() {
+    public Double calculateAmount() {
         return payload.calculateAmont();
     }
 
-    public Integer calculeteTotalItems() {
+    public Long calculeteTotalItems() {
         return payload.calculeteTotalItems();
     }
 }

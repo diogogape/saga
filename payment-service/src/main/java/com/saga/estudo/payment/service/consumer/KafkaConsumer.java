@@ -3,6 +3,7 @@ package com.saga.estudo.payment.service.consumer;
 
 
 
+import com.saga.estudo.payment.service.service.PaymentService;
 import com.saga.estudo.payment.service.utils.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,10 @@ public class KafkaConsumer {
     @Autowired
     private JsonUtil utils;
 
+    @Autowired
+    private PaymentService paymentService;
+
+
 
     @KafkaListener(
             groupId ="${spring.kafka.consumer.group-id}",
@@ -28,8 +33,7 @@ public class KafkaConsumer {
     public void finishSuccessConsumer(String payload){
         log.info("receive event {} from payment-success topic", payload);
         var event = utils.toEvent(payload);
-        log.info(event.toString());
-
+        paymentService.realizePayment(event);
 
     }
 
@@ -40,9 +44,7 @@ public class KafkaConsumer {
     public void finishFailConsumer(String payload){
         log.info("receive event {} from payment-fail topic", payload);
         var event = utils.toEvent(payload);
-        log.info(event.toString());
-
-
+        paymentService.rollbackPayment(event);
     }
 
 

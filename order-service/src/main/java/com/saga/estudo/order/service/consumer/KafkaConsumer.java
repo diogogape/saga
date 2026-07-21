@@ -2,6 +2,7 @@ package com.saga.estudo.order.service.consumer;
 
 import com.saga.estudo.order.service.document.Event;
 import com.saga.estudo.order.service.service.EventService;
+import com.saga.estudo.order.service.service.NotificationService;
 import com.saga.estudo.order.service.utils.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,15 +23,19 @@ public class KafkaConsumer {
     @Autowired
     private EventService eventService;
 
+    @Autowired
+    private NotificationService notificationService;
+
 
     @KafkaListener(
-        groupId ="${spring.kafka.consumer.group-id}",
+        groupId ="${spring.kafka.consumer.group-id}-#{T(java.util.UUID).randomUUID().toString()}",
         topics ="${kafka.topic.notify-ending}"
     )
     public void endingConsumer(String payload){
         log.info("receive event {} from notify-ending topic", payload);
         Event event = utils.toEvent(payload);
         eventService.notifyEnd(event);
+        notificationService.despacharEEncerrar(event.getTransactionId(),event);
     }
 
 }

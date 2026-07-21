@@ -49,11 +49,16 @@ public class EventService {
                 .orElseThrow(()-> new ValidationException("Event not found by OrderId and TransactionId"));
     }
 
-    private Event findByOrderId(String orderId) {
+    public Event findByOrderId(String orderId) {
 
         return eventRepository.findTop1ByOrderIdOrderByCreatedAtDesc(orderId)
                 .orElseThrow(()-> new ValidationException("Event not found by OrderId"));
 
+    }
+
+    public Event findByOrderIdAndSource(String orderId, String source){
+        return eventRepository.findTop1ByOrderIdAndSourceOrderByCreatedAtDesc(orderId,source)
+                .orElseThrow(()-> new ValidationException("Event not found by OrderId"));
     }
 
     private Event findByTransactionId(String transactionId) {

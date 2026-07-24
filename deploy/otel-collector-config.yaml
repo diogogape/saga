@@ -1,0 +1,51 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+
+processors:
+  batch:
+    send_batch_size: 8192
+    timeout: 5s
+    send_batch_max_size: 10240
+
+exporters:
+  otlp/tempo:
+    endpoint: grafana-tempo:4317
+    tls:
+      insecure: true
+
+  # Envia os logs para o container do Loki
+  otlphttp/loki:
+    endpoint: http://grafana-loki:3100/loki/api/v1/push
+    tls:
+      insecure: true
+
+  # Envia as métricas para o container do Prometheus (usando a feature OTLP ativa no seu compose)
+  otlphttp/prometheus:
+    endpoint: http://prometheus:9090/api/v1/otlp
+    tls:
+      insecure: true
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [otlp/tempo]
+    metrics:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [otlphttp/prometheus]
+
+    logs:
+      receivers: [ otlp ]
+      processors: [ batch ]
+      exporters: [ otlphttp/loki ]
+
+  telemetry:
+    logs:
+      level: "info"

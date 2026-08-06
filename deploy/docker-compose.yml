@@ -119,6 +119,14 @@ services:
         condition: service_started
       order-db:
         condition: service_healthy
+      otel-collector:
+        condition: service_started
+      grafana-tempo:
+        condition: service_started
+      grafana-loki:
+        condition: service_started
+      prometheus:
+        condition: service_started
     networks:
       - orchestrator-saga
     environment:
@@ -137,6 +145,14 @@ services:
     depends_on:
       kafka:
         condition: service_started
+      otel-collector:
+        condition: service_started
+      grafana-tempo:
+        condition: service_started
+      grafana-loki:
+        condition: service_started
+      prometheus:
+        condition: service_started
     networks:
       - orchestrator-saga
     environment:
@@ -152,6 +168,14 @@ services:
         condition: service_started
       product-db:
         condition: service_healthy
+      otel-collector:
+        condition: service_started
+      grafana-tempo:
+        condition: service_started
+      grafana-loki:
+        condition: service_started
+      prometheus:
+        condition: service_started
     networks:
       - orchestrator-saga
     environment:
@@ -172,6 +196,14 @@ services:
         condition: service_started
       payment-db:
         condition: service_healthy
+      otel-collector:
+        condition: service_started
+      grafana-tempo:
+        condition: service_started
+      grafana-loki:
+        condition: service_started
+      prometheus:
+        condition: service_started
     networks:
       - orchestrator-saga
     environment:
@@ -192,6 +224,14 @@ services:
         condition: service_started
       inventory-db:
         condition: service_healthy
+      otel-collector:
+        condition: service_started
+      grafana-tempo:
+        condition: service_started
+      grafana-loki:
+        condition: service_started
+      prometheus:
+        condition: service_started
     networks:
       - orchestrator-saga
     environment:
@@ -246,6 +286,8 @@ services:
     image: grafana/loki:latest
     container_name: grafana-loki
     command: ["-config.file=/etc/loki/local-config.yaml"]
+    volumes:
+      - ./loki.yaml:/etc/loki/loki-config.yaml
     ports:
       - "3100:3100"
     networks:

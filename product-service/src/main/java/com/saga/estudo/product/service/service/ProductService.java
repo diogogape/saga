@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -66,6 +67,7 @@ public class ProductService {
                 );
     }
 
+    @Transactional(readOnly = true)
     private void validateExistValidation(Event event) {
         if (validationRepository.existsByOrderIdAndTransactionId(event.getOrderId(),event.getTransactionId())){
             throw new ValidationException("There is another transactionId for this validation");
@@ -94,6 +96,7 @@ public class ProductService {
         event.addToHistory(history);
     }
 
+    @Transactional
     private void createValidation(Event event, boolean success) {
         Validation validation = Validation.builder()
                 .transactionId(event.getTransactionId())
@@ -103,6 +106,7 @@ public class ProductService {
         validationRepository.save(validation);
     }
 
+    @Transactional(readOnly = true)
     private void validateExistProduct(Event event) {
         event.getPayload().getProducts().forEach(p ->{
             if(!productRepository.existsByCode(p.getProduct().getCode())){
